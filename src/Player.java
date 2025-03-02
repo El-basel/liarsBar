@@ -15,6 +15,7 @@ public class Player {
         this.cards.addAll(Arrays.asList(cards));
     }
     void setCards(String... cards) {
+        this.cards.clear();
         this.cards.addAll(Arrays.asList(cards));
     }
     void showCards() {
@@ -53,5 +54,10 @@ public class Player {
             this.cards.remove((cardsIndex[i] - 1));
         }
         return playedCards;
+    }
+
+    @Override
+    public String toString() {
+        return name + " :" + cards + " " + alive;
     }
 }

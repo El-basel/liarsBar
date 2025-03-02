@@ -15,7 +15,9 @@ public class Deck {
         }
         cards.add("Joker");
         cards.add("Joker");
-        tableType = cards.get(random.nextInt(0, cards.size()));
+        do {
+            tableType = cards.get(random.nextInt(0, cards.size()));
+        } while (tableType.equalsIgnoreCase("Joker"));
     }
 
     String[] getLastPlayedCards() {
@@ -33,9 +35,6 @@ public class Deck {
             cards.remove(randomIndex);
         }
         return playerCards;
-    }
-    void setTableType() {
-        tableType = cards.get(random.nextInt(0, cards.size()));
     }
     void setLastPlayedCards(String[] cardsOnTable) {
         numberOfCards = cardsOnTable.length;

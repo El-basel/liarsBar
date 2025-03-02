@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class GameManager {
     Player[] players = new Player[4];
     Deck deck = new Deck();
+    int rounds = 0;
     void initializeGame() {
         Scanner scanner = new Scanner(System.in);
         String name;
@@ -13,15 +14,32 @@ public class GameManager {
             players[i] = new Player(name, deck.randomCardGenerator());
         }
     }
+    void initializeRound() {
+        rounds = 0;
+        deck = new Deck();
+        for (Player player : players) {
+            player.setCards(deck.randomCardGenerator());
+        }
+        printState();
+    }
 
     void start() {
         int turn = 0;
         while (!winner()) {
+            turn = rounds % players.length;
+            while (!players[turn].alive) {
+                ++rounds;
+                turn = rounds % players.length;
+            }
             System.out.println(deck.tableType + "'s Table");
-            getTurn(turn);
-            System.out.println(deck.lastPlayedCards[0] + " " + deck.lastPlayedCards[1] + " " + deck.lastPlayedCards[2]);
-            ++turn;
-            turn %= players.length;
+            if(players[turn].alive) {
+                getTurn(turn);
+            }
+        }
+        for (Player player : players) {
+            if(player.alive) {
+                System.out.println(player.name + " won");
+            }
         }
     }
 
@@ -40,28 +58,32 @@ public class GameManager {
         Scanner scanner = new Scanner(System.in);
         System.out.print("PRESS ANY KEY TO CONTINUE");
         scanner.nextLine();
-        if(turn != 0) {
+        int choice;
+        if(rounds != 0) {
             System.out.println("1. Play Cards");
             System.out.println("2. Call Liar");
+            // TODO input validation
+            choice = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            choice = 1;
         }
-        // TODO input validation
-        int choice = scanner.nextInt();
-        scanner.nextLine();
         switch (choice) {
             case 1 -> deck.setLastPlayedCards(players[turn].playCards());
             case 2 -> {
                 callLiar(turn);
-                deck.setTableType();
-                turn = 0;
+                initializeRound();
+                return;
             }
             default -> System.out.println("Invalid Choice");
         }
+        ++rounds;
     }
 
     void callLiar(int turn) {
         String[] cardsOnTable = deck.getLastPlayedCards();
         for(String card: cardsOnTable) {
-            if(!card.equals(deck.tableType)) {
+            if(!card.equals(deck.tableType) && !card.equals("Joker")) {
                 System.out.println(players[turn-1].name + " is A LIAR");
                 if(players[turn-1].gun.getShot()) {
                     System.out.println(players[turn-1].name + " died");
@@ -78,6 +100,12 @@ public class GameManager {
             players[turn].alive = false;
         } else {
             System.out.println(players[turn].name + " lived");
+        }
+    }
+
+    void printState() {
+        for(Player player: players) {
+            System.out.println(player);
         }
     }
 }

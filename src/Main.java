@@ -5,7 +5,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         GameManager gameManager = new GameManager();
         System.out.println("***********************");
-        System.out.println("Welcome to The Bluffers");
+        System.out.println("Welcome to The Liar's Bar");
         System.out.println("***********************");
         System.out.println("1. How to Play?");
         System.out.println("2. Start The Game");
