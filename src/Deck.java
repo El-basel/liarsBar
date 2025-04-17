@@ -1,18 +1,46 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Deck {
     ArrayList<String> cards = new ArrayList<>(20);
+    static Map<String, String> cardsRepresentation = new HashMap<>();
     String[] lastPlayedCards = {"","",""};
     String tableType;
     Random random = new Random();
     int numberOfCards;
     Deck() {
+        cardsRepresentation.put("Ace", """
+                    ┌─────────┐
+                      │A   C    │
+                      │    E    │
+                      │        A│
+                      └─────────┘""");
+        cardsRepresentation.put("King", """
+                    ┌─────────┐
+                      │K   I    │
+                      │    N    │
+                      │    G   K│
+                      └─────────┘""");
+        cardsRepresentation.put("Queen", """
+                    ┌─────────┐
+                      │Q   U    │
+                      │  E   E  │
+                      │    N   Q│
+                      └─────────┘""");
+        cardsRepresentation.put("Joker", """
+                ┌─────────┐
+                  │J O   K  │
+                  │  E   E  │
+                  │    R   J│
+                  └─────────┘""");
         for (int i = 0; i < 6; i++) {
             cards.add("Ace");
             cards.add("King");
             cards.add("Queen");
         }
+
         cards.add("Joker");
         cards.add("Joker");
         do {

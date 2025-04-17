@@ -19,14 +19,17 @@ public class Player {
         this.cards.addAll(Arrays.asList(cards));
     }
     void showCards() {
-        System.out.print(this.name +"'s Cards: [");
+        boolean newLine = false;
+        Colors.print(this.name +"'s Cards: [\n", Colors.ORANGE);
         for (int i = 0; i < cards.size(); i++) {
-            System.out.print((i + 1) + "." + cards.get(i));
-            if(i != (cards.size() - 1)) {
-                System.out.print(", ");
-            }
+            Colors.println((i + 1) + "." + Deck.cardsRepresentation.get(cards.get(i)), Colors.ORANGE);
+//            if(!newLine) {
+//                System.out.print("\u001B[5A");
+//                System.out.print("\u001B[12C");
+//            }
+//            newLine = !newLine;
         }
-        System.out.println("]");
+        Colors.println("]", Colors.ORANGE);
     }
 
     String[] playCards() {
@@ -36,12 +39,12 @@ public class Player {
         Scanner scanner = new Scanner(System.in);
         showCards();
         do {
-            System.out.print("Enter the number of cards you will play (Max. 3): ");
+            Colors.print("Enter the number of cards you will play (Max. 3): ", Colors.LIGHT_BLUE);
             numberOfCards = scanner.nextInt();
             scanner.nextLine();
         } while (numberOfCards > 3);
         String[] playedCards = new String[numberOfCards];
-        System.out.print("Enter the index of the cards you want to play separated by spaces (card1 card2 card3): ");
+        Colors.print("Enter the index of the cards you want to play separated by spaces (card1 card2 card3): ", Colors.LIGHT_BLUE);
         for (int i = 0; i < numberOfCards; i++) {
             cardsIndex[i] = scanner.nextInt();
             playedCards[i] = this.cards.get((cardsIndex[i] - 1));
